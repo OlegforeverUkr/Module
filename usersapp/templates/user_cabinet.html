@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} My Office {% endblock %}
+
+{% block content %}
+    <h1>User Cabinet</h1>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Status</th>
+                    <th>Overdue</th>
+                    <th>Request Date</th>
+                    <th>Due Date</th>
+                    <th>Complete Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in borrow_requests %}
+                    <tr>
+                        <td><a href="{% url 'booksapp:borrow_request' request.book.pk %}">{{ request.book }}</a></td>
+                        <td>{{ request.get_status_display }}</td>
+                        <td>{{ request.overdue }}</td>
+                        <td>{{ request.request_date }}</td>
+                        <td>{{ request.due_date }}</td>
+                        <td>{{ request.complete_date }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            {% for message in request.messages.all %}
+                                <div class="message">
+                                    <strong>{{ message.sender }}:</strong> {{ message.content }}{{ message.time_send }}
+                                </div>
+                            {% endfor %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="request_id" value="{{ request.id }}">
+                                <textarea name="message_content" class="form-control" placeholder="Write your message here"></textarea>
+                                <button type="submit" class="btn btn-primary mt-2" name="action" value="send_message">Send Message</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

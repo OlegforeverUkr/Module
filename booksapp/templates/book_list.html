@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load group_tag %}
+
+{% block title %} Books List {% endblock %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author(s)</th>
+            <th>Summary</th>
+            <th>Published Date</th>
+            <th>Publisher</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.book_title }}</td>
+                <td>{{ book.book_authors.all|join:', ' }}</td>
+                <td>{{ book.book_summary }}</td>
+                <td>{{ book.published_date }}</td>
+                <td>{{ book.publisher_book }}</td>
+                <td>{% if book.is_available %}Available{% else %}Not Available{% endif %}</td>
+                <td><a href="{% url 'booksapp:book_detail' book.pk %}">Detail View</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

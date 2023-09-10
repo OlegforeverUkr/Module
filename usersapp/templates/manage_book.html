@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %} Manage Book {% endblock %}
+
+{% block content %}
+    <h2>Manage Books</h2>
+    <h4><a href="{% url 'booksapp:create_book'%}">Add New Book</a></h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Genres</th>
+                <th>Published Date</th>
+                <th>Publisher</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td><a href='{% url 'booksapp:borrow_request' book.pk %}'>{{ book.book_title }}</a></td>
+                    <td>
+                        {% for author in book.book_authors.all %}
+                            {{ author.name_author }}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for genre in book.book_genre.all %}
+                            {{ genre.name_genre }}
+                        {% endfor %}
+                    </td>
+                    <td>{{ book.published_date }}</td>
+                    <td>{{ book.publisher_book }}</td>
+                    <td>
+                        <form method="post" class="d-flex">
+                            {% csrf_token %}
+                            <input type="hidden" name="book_id" value="{{ book.id }}">
+                            <button type="submit" class="btn btn-primary me-2" name="action" value="edit">Edit</button>
+                        </form>
+                        <form method="post" class="d-flex">
+                            {% csrf_token %}
+                            <button class="btn btn-danger"><a href="{% url 'usersapp:delete_book' book.pk %}" style="color: white; text-decoration: none;">Delete</a></button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

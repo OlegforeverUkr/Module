@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %} Borrow List {% endblock %}
+
+{% block content %}
+<main class="container mt-4 mb-5">
+    <h1>Borrow History</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Borrower</th>
+                <th>Book</th>
+                <th>Request Date</th>
+                <th>Expected Return Date</th>
+                <th>Return Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in borrow_list %}
+                <tr>
+                    <td><a href="{% url 'usersapp:user_all_requests' request.borrower.id %}">{{ request.borrower.username }}</a></td>
+                    <td>{{ request.book.book_title }}</td>
+                    <td>{{ request.request_date }}</td>
+                    <td>{{ request.due_date }}</td>
+                    <td>{{ request.complete_date }}</td>
+                    <td>{{ request.get_status_display }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}

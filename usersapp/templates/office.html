@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %} Office {% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1 class="text-center">Welcome to the Librarian's Office</h1>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manage Books</h5>
+                    <p class="card-text">Add, edit, and remove books from the library collection.</p>
+                    <a href="{% url 'usersapp:manage_books' %}" class="btn btn-primary">Go to Management</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manage Authors</h5>
+                    <p class="card-text">Manage and update information about authors of the books.</p>
+                    <a href="{% url 'usersapp:manage_authors' %}" class="btn btn-primary">Go to Management</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manage Genres</h5>
+                    <p class="card-text">Edit and update book genres for better organization.</p>
+                    <a href="{% url 'usersapp:manage_genres' %}" class="btn btn-primary">Go to Management</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manage Borrow Requests</h5>
+                    <p class="card-text">Review and manage borrow requests from library users.</p>
+                    <a href="{% url 'usersapp:manage_requests' %}" class="btn btn-primary">Go to Management</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %} Book Ditale {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mt-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'booksapp:borrow_request' book.pk %}">{{ book.book_title }}</a>
+            {% else %}
+                {{ book.book_title }}
+            {% endif %}
+        </h1>
+        <table class="table mt-4">
+            <tbody>
+                <tr>
+                    <th scope="row">Author(s):</th>
+                    <td>{{ book.book_authors.all|join:', ' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Genre:</th>
+                    <td>{{ book.book_genre.all|join:', ' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Publisher:</th>
+                    <td>{{ book.publisher_book }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Published:</th>
+                    <td>{{ book.published_date }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Description:</th>
+                    <td>{{ book.book_summary }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Status:</th>
+                    <td>{% if book.is_available %}Available{% else %}Not Available{% endif %}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
