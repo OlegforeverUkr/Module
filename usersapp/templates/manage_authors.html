@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} Manage Authors {% endblock %}
+
+{% block content %}
+    <h2>Manage Authors</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Bio</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in authors %}
+                <tr>
+                    <td>{{ author.name_author }}</td>
+                    <td>{{ author.bio_author }}</td>
+                    <td>
+                        <form method="post" class="d-flex">
+                            {% csrf_token %}
+                            <input type="hidden" name="author_id" value="{{ author.id }}">
+                            <button type="submit" class="btn btn-primary me-2" name="action" value="edit">Edit</button>
+                        </form>
+                        <form method="post" class="d-flex">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href='{% url 'usersapp:create_author' %}' class="btn btn-primary">Create Author</a>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Borrow Request {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">{{ book.book_title }}</h2>
+    </div>
+    <div class="card-body">
+      <p class="card-text mb-2">Author(s): {{ book.book_authors.all|join:', ' }}</p>
+      <p class="card-text mb-2">Summary: {{ book.book_summary }}</p>
+      <p class="card-text mb-2">Published Date: {{ book.published_date }}</p>
+      <p class="card-text mb-2">Publisher: {{ book.publisher_book }}</p>
+      {% if user.is_authenticated %}
+        <form method="post">
+          {% csrf_token %}
+          {% if book.is_available %}
+            <button class="btn btn-primary" type="submit" name="action" value="request">Request Borrow</button>
+          {% else %}
+            {% if borrow_request.status == 1 %}
+              <p class="mt-2">Book pending request confirmation</p>
+            {% endif %}
+            {% if book.book_borrower == request.user %}
+              {% if borrow_request.status == 2 %}
+                <button class="btn btn-success" type="submit" name="action" value="collect">Collect</button>
+              {% elif borrow_request.status == 3 %}
+                <button class="btn btn-warning" type="submit" name="action" value="return">Return</button>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

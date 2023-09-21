@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Genre {% endblock %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
+        <h2 style="text-align: center;">Edit Genre</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div style="text-align: center;">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+        <div style="text-align: center; margin-top: 10px;">
+            <a href="{% url 'usersapp:manage_genres' %}" style="color: #007bff; text-decoration: none;">Back to Genres</a>
+        </div>
+    </div>
+{% endblock %}

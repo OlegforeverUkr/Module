@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+<main class="container mt-4 mb-5">
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                 <div class="mb-5">
+                    <h1>{{ request.user }}</h1>
+                    {{form.username}}
+                    <label class="form-label" for="username">{{form.username.label}}</label>
+                    <div>{{ form.username.errors }}</div>
+                </div>
+                <div class="mb-5">
+                    {{form.password}}
+                    <label for="password" class="form-label">{{form.password.label}}</label>
+                    <div>{{ form.password.errors }}</div>
+                </div>
+                <div>{{ form.errors }}</div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Log in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}

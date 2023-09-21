@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %} Manage Genres {% endblock %}
+
+{% block content %}
+    <h2>Manage Genres</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for genre in genres %}
+                <tr>
+                    <td>{{ genre.name_genre }}</td>
+                    <td>
+                        <form method="post" class="d-flex">
+                            {% csrf_token %}
+                            <input type="hidden" name="genre_id" value="{{ genre.id }}">
+                            <button type="submit" class="btn btn-primary me-2" name="action" value="edit">Edit</button>
+                        </form>
+                        <form method="post" class="d-flex">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href='{% url 'usersapp:create_genre' %}' class="btn btn-primary">Create New Genre</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} Create Genre {% endblock %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
+        <h1 style="text-align: center;">Create Genre</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div style="margin-bottom: 10px;">
+                <label for="{{ form.name_genre.id_for_label }}">Genre Name:</label>
+                {{ form.name_genre }}
+            </div>
+            <div style="text-align: center;">
+                <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Create Genre</button>
+            </div>
+        </form>
+        <div style="text-align: center; margin-top: 10px;">
+            <a href="{% url 'usersapp:manage_genres' %}" style="color: #007bff; text-decoration: none;">Back to Genres</a>
+        </div>
+    </div>
+{% endblock %}
+

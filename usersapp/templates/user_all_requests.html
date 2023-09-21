@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} User Requests {% endblock %}
+
+{% block content %}
+  <h2>All Requests for 
+    {{ username }}
+  </h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Status</th>
+        <th>Request Date</th>
+        <th>Due Date</th>
+        <th>Complete Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in user_requests %}
+        <tr>
+          <td><a href="{% url 'booksapp:borrow_request' request.book.pk %}">{{ request.book }}</a></td>
+          <td>{{ request.get_status_display }}</td>
+          <td>{{ request.request_date }}</td>
+          <td>{{ request.due_date }}</td>
+          <td>{{ request.complete_date }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} Create Author {% endblock %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
+        <h1 style="text-align: center;">Create Author</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div style="margin-bottom: 10px;">
+                <label for="{{ form.name_author.id_for_label }}">Author's Name:</label>
+                {{ form.name_author }}
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label for="{{ form.bio_author.id_for_label }}">Author's Biography:</label>
+                {{ form.bio_author }}
+            </div>
+            <div style="text-align: center;">
+                <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Create Author</button>
+            </div>
+        </form>
+        <div style="text-align: center; margin-top: 10px;">
+            <a href="{% url 'usersapp:manage_authors' %}" style="color: #007bff; text-decoration: none;">Back to Authors</a>
+        </div>
+    </div>
+{% endblock %}
+

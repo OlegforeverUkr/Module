@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %} Borrow Requests {% endblock %}
+
+{% block content %}
+    <h2>Borrow Requests</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Book</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                    <th>Availability</th>
+                    <th>Date Borrowed</th>
+                    <th>Due Date</th>
+                    <th>Overdue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in borrow_requests %}
+                    <tr>
+                        <td><a href="{% url 'usersapp:user_all_requests' request.borrower.id %}">{{ request.borrower }}</a></td>
+                        <td>{{ request.book }}</td>
+                        <td>{{ request.get_status_display }}</td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="request_id" value="{{ request.id }}">
+                                {% if request.status == 1 %}
+                                    <button type="submit" class="btn btn-success" name="action" value="approve">Approve</button>
+                                    <button type="submit" class="btn btn-danger" name="action" value="decline">Decline</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="change_availability">
+                                <input type="hidden" name="book_id" value="{{ request.book.id }}">
+                                <input type="checkbox" name="is_available" {% if request.book.is_available %}checked{% endif %}>
+                                <button type="submit" class="btn btn-primary">Change Availability</button>
+                            </form>
+                        </td>
+                        <td>{{ request.request_date }}</td>
+                        <td>{{ request.due_date }}</td>
+                        <td>{% if request.overdue %}Yes{% else %}No{% endif %}</td>
+                        <tr>
+                            <td colspan="6">
+                                {% for message in request.messages.all %}
+                                    <div class="message">
+                                        <strong>{{ message.sender }}:</strong> {{ message.content }}
+                                        <br>
+                                            Sent at: {{ message.time_send }}
+                                    </div>
+                                {% endfor %}
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="request_id" value="{{ request.id }}">
+                                    <textarea name="message_content" class="form-control" placeholder="Write your message here"></textarea>
+                                    <button type="submit" class="btn btn-primary mt-2" name="action" value="send_message">Send Message</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
