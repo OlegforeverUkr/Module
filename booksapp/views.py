@@ -3,7 +3,6 @@ from .models import Book, Author, BorrowRequest
 from django.views.generic import ListView, DetailView, View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.views.generic.edit import CreateView

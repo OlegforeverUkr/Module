@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.contrib.auth import logout
 from booksapp.models import Book, Author, Genre, BorrowRequest, UserModel, Message
 from booksapp.forms import CreateBookForm
+from .service import IsAdminOrStaff
 
 
 class UserLoginView(LoginView):
@@ -29,11 +30,11 @@ class UserLogoutView(LogoutView):
         return redirect('usersapp:login')
 
 
-class OfficeView(TemplateView):
+class OfficeView(IsAdminOrStaff, TemplateView):
     template_name = 'office.html'
 
 
-class ManageBooksView(ListView):
+class ManageBooksView(IsAdminOrStaff, ListView):
     model = Book
     template_name = 'manage_book.html'
     context_object_name = 'books'
@@ -48,7 +49,7 @@ class ManageBooksView(ListView):
         return redirect(reverse_lazy('usersapp:manage_books'))
 
 
-class EditBookView(UpdateView):
+class EditBookView(IsAdminOrStaff, UpdateView):
     model = Book
     form_class = CreateBookForm
     template_name = 'edit_book.html'
@@ -60,7 +61,7 @@ class EditBookView(UpdateView):
         return kwargs
 
 
-class ManageAuthorsView(ListView):
+class ManageAuthorsView(IsAdminOrStaff, ListView):
     model = Author
     template_name = 'manage_authors.html'
     context_object_name = 'authors'
@@ -81,7 +82,7 @@ class ManageAuthorsView(ListView):
         return redirect(reverse_lazy('usersapp:manage_authors'))
 
 
-class EditAuthorView(UpdateView):
+class EditAuthorView(IsAdminOrStaff, UpdateView):
     model = Author
     fields = ['name_author', 'bio_author']
     template_name = 'edit_authors.html'
@@ -93,7 +94,7 @@ class EditAuthorView(UpdateView):
         return kwargs
 
 
-class CreateAuthorView(CreateView):
+class CreateAuthorView(IsAdminOrStaff, CreateView):
     model = Author
     form_class = CreateAuthorForm
     template_name = 'create_author.html'
@@ -101,7 +102,7 @@ class CreateAuthorView(CreateView):
 
 
 
-class ManageGenresView(ListView):
+class ManageGenresView(IsAdminOrStaff, ListView):
     model = Genre
     template_name = 'manage_genres.html'
     context_object_name = 'genres'
@@ -122,7 +123,7 @@ class ManageGenresView(ListView):
         return redirect(reverse_lazy('usersapp:manage_genres'))
 
 
-class EditGenreView(UpdateView):
+class EditGenreView(IsAdminOrStaff, UpdateView):
     model = Genre
     fields = ['name_genre']
     template_name = 'edit_genre.html'
@@ -134,14 +135,14 @@ class EditGenreView(UpdateView):
         return kwargs
 
 
-class CreateGenreView(CreateView):
+class CreateGenreView(IsAdminOrStaff, CreateView):
     model = Genre
     form_class = CreateGenreForm
     template_name = 'create_genre.html'
     success_url = reverse_lazy('usersapp:manage_genres')
 
 
-class ManageBorrowRequestsView(ListView):
+class ManageBorrowRequestsView(IsAdminOrStaff, ListView):
     model = BorrowRequest
     template_name = 'manage_borrow_requests.html'
     context_object_name = 'borrow_requests'
@@ -226,13 +227,13 @@ class ChangePasswordView(PasswordChangeView):
     success_url = reverse_lazy('usersapp:login') 
 
 
-class DeleteBookView(DeleteView):
+class DeleteBookView(IsAdminOrStaff, DeleteView):
     model = Book
     template_name = 'book_delete.html'
     success_url = reverse_lazy('booksapp:home_page')
 
 
-class UserRequestsListView(ListView):
+class UserRequestsListView(IsAdminOrStaff, ListView):
     model = BorrowRequest
     template_name = 'user_all_requests.html'
     context_object_name = 'user_requests'
